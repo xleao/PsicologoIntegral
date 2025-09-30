@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Psicología Integral — Agenda por WhatsApp</title>
+  <meta name="description" content="Terapia basada en evidencia para ansiedad, depresión, TDAH, estrés y duelo. Atención presencial y online. Reserva por WhatsApp."/>
+  <meta name="theme-color" content="#10B981"/>
+
+  <!-- Tailwind (CDN) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50:  '#eafcf4',
+              100: '#d2f7e6',
+              200: '#a8edcf',
+              300: '#77e1b5',
+              400: '#3fd598',
+              500: '#10b981', /* verde principal */
+              600: '#0ea371',
+              700: '#0b855d',
+              800: '#0a6b4c',
+              900: '#094f3a'
+            }
+          },
+          boxShadow: {
+            soft: '0 10px 30px rgba(16,185,129,.18)'
+          },
+          keyframes: {
+            float: { '0%,100%':{transform:'translateY(0)'},
+                     '50%':{transform:'translateY(-10px)'} },
+            blob: {
+              '0%': { transform: 'translate(0px,0px) scale(1)' },
+              '33%': { transform: 'translate(10px,-10px) scale(1.05)' },
+              '66%': { transform: 'translate(-10px,10px) scale(0.98)' },
+              '100%': { transform: 'translate(0px,0px) scale(1)' }
+            },
+            shine: {
+              '0%': { backgroundPosition: '-200% 0' },
+              '100%': { backgroundPosition: '200% 0' }
+            }
+          },
+          animation: {
+            float: 'float 6s ease-in-out infinite',
+            blob: 'blob 14s ease-in-out infinite',
+            shine: 'shine 1.8s linear infinite'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Revelado al hacer scroll (profesional y suave) */
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.show { opacity: 1; transform: translateY(0); }
+    /* Botón con “gloss” animado */
+    .btn-gloss {
+      background: linear-gradient(90deg, rgba(255,255,255,.15), rgba(255,255,255,0), rgba(255,255,255,.15));
+      background-size: 200% 100%;
+      mix-blend-mode: overlay;
+      pointer-events: none;
+    }
+    /* Respeto a reduce motion */
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { transition: none; }
+      .animate-float, .animate-blob, .animate-shine { animation: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-neutral-50 text-neutral-900">
+  <!-- Decoración de fondo (blobs verdes, suaves) -->
+  <div class="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+    <div class="absolute -top-24 -left-24 h-72 w-72 rounded-full bg-brand-300/40 blur-3xl animate-blob"></div>
+    <div class="absolute top-32 -right-20 h-80 w-80 rounded-full bg-brand-500/25 blur-3xl animate-blob"></div>
+    <div class="absolute bottom-0 left-1/3 h-64 w-64 rounded-full bg-brand-200/40 blur-3xl animate-blob"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="bg-white/70 backdrop-blur sticky top-0 z-50 border-b border-neutral-200">
+    <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+      <a href="#" class="flex items-center gap-3">
+        <span class="inline-block h-9 w-9 rounded-xl bg-brand-500 shadow-soft animate-float"></span>
+        <span class="font-semibold">Psicología Integral</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-6 text-sm">
+        <a href="#servicios" class="hover:text-brand-700">Servicios</a>
+        <a href="#especialidades" class="hover:text-brand-700">Especialidades</a>
+        <a href="#metodo" class="hover:text-brand-700">Enfoque</a>
+        <a href="#testimonios" class="hover:text-brand-700">Testimonios</a>
+        <a href="#contacto" class="hover:text-brand-700">Contacto</a>
+        <a href="#" id="ctaHeader" class="relative px-4 py-2 rounded-lg bg-brand-600 text-white font-medium hover:bg-brand-700 shadow-soft">
+          Agendar por WhatsApp
+          <span class="btn-gloss absolute inset-0 rounded-lg"></span>
+        </a>
+      </nav>
+      <button id="menuBtn" class="md:hidden p-2 rounded border border-neutral-300" aria-label="Abrir menú">☰</button>
+    </div>
+    <!-- Menú móvil -->
+    <div id="mobileMenu" class="md:hidden hidden border-t border-neutral-200 bg-white">
+      <nav class="max-w-6xl mx-auto px-4 py-3 flex flex-col gap-3 text-sm">
+        <a href="#servicios">Servicios</a>
+        <a href="#especialidades">Especialidades</a>
+        <a href="#metodo">Enfoque</a>
+        <a href="#testimonios">Testimonios</a>
+        <a href="#contacto">Contacto</a>
+        <a href="#" id="ctaMobile" class="mt-2 relative px-4 py-2 rounded-lg bg-brand-600 text-white font-medium text-center shadow-soft">
+          Agendar por WhatsApp
+          <span class="btn-gloss absolute inset-0 rounded-lg"></span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <section class="max-w-6xl mx-auto px-4 pt-10 pb-10">
+    <div class="grid md:grid-cols-2 gap-10 items-center">
+      <div class="reveal show">
+        <h1 class="text-4xl font-semibold leading-tight">
+          Terapia <span class="text-brand-700">humana</span>, clara y basada en evidencia.
+        </h1>
+        <p class="mt-3 text-neutral-700">
+          Ansiedad, depresión, TDAH, estrés y duelo. Modalidad <b>presencial</b> y <b>online</b>.
+          Agenda tu primera sesión de evaluación.
+        </p>
+        <div class="mt-6 flex flex-wrap gap-3">
+          <a href="#" id="ctaHero" class="relative px-5 py-3 rounded-xl bg-brand-600 text-white font-medium hover:bg-brand-700 shadow-soft">
+            Agendar por WhatsApp
+            <span class="btn-gloss absolute inset-0 rounded-xl"></span>
+          </a>
+          <a href="#servicios" class="px-5 py-3 rounded-xl border border-brand-300 text-brand-800 hover:bg-brand-50">
+            Ver servicios
+          </a>
+        </div>
+        <ul class="mt-6 grid grid-cols-2 gap-2 text-sm text-neutral-700">
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-brand-500"></span> Sesión 50–60 min</li>
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-brand-500"></span> Confidencialidad</li>
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-brand-500"></span> Recibos para reembolso</li>
+          <li class="flex items-center gap-2"><span class="h-2 w-2 rounded-full bg-brand-500"></span> Enfoque cognitivo-conductual</li>
+        </ul>
+      </div>
+
+      <div class="relative reveal">
+        <div class="absolute -inset-2 rounded-2xl bg-gradient-to-br from-brand-400/30 to-brand-600/20 blur-xl"></div>
+        <img src="https://picsum.photos/900/600?therapy" alt="Consultorio" class="relative rounded-2xl border border-brand-200 shadow-soft"/>
+      </div>
+    </div>
+  </section>
+
+  <!-- Cinta de “confianza” animada -->
+  <section class="bg-gradient-to-r from-brand-50 to-white border-y border-brand-100">
+    <div class="max-w-6xl mx-auto px-4 py-6">
+      <div class="flex flex-wrap items-center gap-4 text-sm text-brand-900">
+        <span class="px-3 py-1 rounded-full bg-brand-100">Atención en Lima y Online</span>
+        <span class="px-3 py-1 rounded-full bg-brand-100">Respuesta por WhatsApp</span>
+        <span class="px-3 py-1 rounded-full bg-brand-100">Basada en evidencia</span>
+        <span class="px-3 py-1 rounded-full bg-brand-100">Ambiente seguro</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Servicios -->
+  <section id="servicios" class="bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-semibold reveal">Servicios</h2>
+      <p class="text-neutral-600 mt-1 reveal">Atención personalizada para cada etapa y necesidad.</p>
+
+      <div class="mt-8 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Card -->
+        <article class="reveal p-6 rounded-2xl border border-brand-200 bg-white hover:shadow-soft transition">
+          <h3 class="font-semibold">Terapia Individual</h3>
+          <p class="text-sm text-neutral-600 mt-1">Ansiedad, autoestima, estrés, duelo.</p>
+          <p class="mt-3 inline-flex items-center gap-2 text-brand-800 font-medium">
+            <span class="inline-block h-2 w-2 rounded-full bg-brand-500 animate-float"></span> Desde S/ 120
+          </p>
+        </article>
+
+        <article class="reveal p-6 rounded-2xl border border-brand-200 bg-white hover:shadow-soft transition">
+          <h3 class="font-semibold">Adolescentes</h3>
+          <p class="text-sm text-neutral-600 mt-1">Regulación emocional, hábitos, TDAH.</p>
+          <p class="mt-3 inline-flex items-center gap-2 text-brand-800 font-medium">
+            <span class="inline-block h-2 w-2 rounded-full bg-brand-500 animate-float"></span> Desde S/ 120
+          </p>
+        </article>
+
+        <article class="reveal p-6 rounded-2xl border border-brand-200 bg-white hover:shadow-soft transition">
+          <h3 class="font-semibold">Pareja</h3>
+          <p class="text-sm text-neutral-600 mt-1">Comunicación, acuerdos, confianza.</p>
+          <p class="mt-3 inline-flex items-center gap-2 text-brand-800 font-medium">
+            <span class="inline-block h-2 w-2 rounded-full bg-brand-500 animate-float"></span> Desde S/ 160
+          </p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- Especialidades -->
+  <section id="especialidades" class="bg-brand-50/70 border-y border-brand-100">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-semibold reveal">Especialidades</h2>
+      <div class="mt-6 flex flex-wrap gap-2 text-sm">
+        <!-- chips animados discretos -->
+        <span class="reveal px-3 py-1 rounded-full bg-brand-200/50 text-brand-900">Ansiedad</span>
+        <span class="reveal px-3 py-1 rounded-full bg-brand-200/50 text-brand-900">Depresión</span>
+        <span class="reveal px-3 py-1 rounded-full bg-brand-200/50 text-brand-900">Estrés</span>
+        <span class="reveal px-3 py-1 rounded-full bg-brand-200/50 text-brand-900">Duelo</span>
+        <span class="reveal px-3 py-1 rounded-full bg-brand-200/50 text-brand-900">TDAH</span>
+        <span class="reveal px-3 py-1 rounded-full bg-brand-200/50 text-brand-900">Habilidades sociales</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Enfoque -->
+  <section id="metodo" class="bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-semibold reveal">Enfoque</h2>
+      <p class="mt-2 text-neutral-700 max-w-3xl reveal">
+        Enfoque cognitivo-conductual y psicoeducación. Primera sesión de evaluación para definir un plan claro,
+        con objetivos alcanzables y tareas entre sesiones.
+      </p>
+      <ul class="mt-6 grid sm:grid-cols-3 gap-4 text-sm">
+        <li class="reveal p-4 rounded-xl bg-brand-50 border border-brand-100">Evaluación inicial</li>
+        <li class="reveal p-4 rounded-xl bg-brand-50 border border-brand-100">Objetivos y plan</li>
+        <li class="reveal p-4 rounded-xl bg-brand-50 border border-brand-100">Seguimiento y ajustes</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Testimonios (carrusel simple) -->
+  <section id="testimonios" class="bg-gradient-to-br from-white to-brand-50">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <div class="flex items-center justify-between">
+        <h2 class="text-2xl font-semibold reveal">Testimonios</h2>
+        <div class="flex gap-2">
+          <button id="prev" class="h-9 w-9 rounded-full border border-brand-200 hover:bg-brand-50">‹</button>
+          <button id="next" class="h-9 w-9 rounded-full border border-brand-200 hover:bg-brand-50">›</button>
+        </div>
+      </div>
+      <div class="mt-6 overflow-hidden">
+        <div id="track" class="flex gap-4 transition-transform duration-500">
+          <blockquote class="reveal min-w-[80%] md:min-w-[32%] p-5 rounded-2xl bg-white border border-brand-100 shadow-sm">
+            <p>“Me sentí escuchada desde la primera sesión. Aprendí a manejar mi ansiedad.”</p>
+            <footer class="mt-3 text-sm text-neutral-500">— A., 27 años</footer>
+          </blockquote>
+          <blockquote class="reveal min-w-[80%] md:min-w-[32%] p-5 rounded-2xl bg-white border border-brand-100 shadow-sm">
+            <p>“Herramientas prácticas para el día a día. Excelente profesional.”</p>
+            <footer class="mt-3 text-sm text-neutral-500">— J., 34 años</footer>
+          </blockquote>
+          <blockquote class="reveal min-w-[80%] md:min-w-[32%] p-5 rounded-2xl bg-white border border-brand-100 shadow-sm">
+            <p>“Mi hijo mejoró hábitos y está más seguro de sí mismo.”</p>
+            <footer class="mt-3 text-sm text-neutral-500">— M., mamá</footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contacto -->
+  <section id="contacto" class="bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-12">
+      <h2 class="text-2xl font-semibold reveal">Contacto</h2>
+      <div class="mt-6 grid md:grid-cols-2 gap-8">
+        <form id="form" class="reveal p-6 rounded-2xl bg-brand-50 border border-brand-100">
+          <div class="grid sm:grid-cols-2 gap-3">
+            <label class="text-sm">Nombre
+              <input name="nombre" required class="mt-1 w-full px-3 py-2 rounded border border-brand-200 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white"/>
+            </label>
+            <label class="text-sm">Motivo
+              <select name="motivo" class="mt-1 w-full px-3 py-2 rounded border border-brand-200 focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white">
+                <option>Ansiedad</option><option>Depresión</option><option>Estrés</option>
+                <option>Duelo</option><option>TDAH</option><option>Otro</option>
+              </select>
+            </label>
+          </div>
+          <label class="text-sm block mt-3">Horario preferido
+            <input name="horario" placeholder="Lun-Vie 4–7 pm" class="mt-1 w-full px-3 py-2 rounded border border-brand-200 focus:ring-2 focus:ring-brand-500 bg-white"/>
+          </label>
+          <label class="text-sm block mt-3">Mensaje
+            <textarea name="mensaje" rows="4" class="mt-1 w-full px-3 py-2 rounded border border-brand-200 focus:ring-2 focus:ring-brand-500 bg-white"></textarea>
+          </label>
+          <div class="mt-4 flex flex-wrap gap-3">
+            <button type="submit" class="relative px-5 py-3 rounded-xl bg-brand-600 text-white font-medium hover:bg-brand-700 shadow-soft">
+              Enviar a WhatsApp
+              <span class="btn-gloss absolute inset-0 rounded-xl"></span>
+            </button>
+            <a href="mailto:contacto@tudominio.com" class="px-5 py-3 rounded-xl border border-brand-300 text-brand-900 hover:bg-brand-50">
+              Enviar por correo
+            </a>
+          </div>
+          <p class="text-xs text-neutral-600 mt-3">Al enviar aceptas el tratamiento de tus datos para contactarte.</p>
+        </form>
+
+        <div class="reveal rounded-2xl overflow-hidden border border-brand-100">
+          <iframe
+            title="Mapa"
+            width="100%" height="360" style="border:0"
+            loading="lazy" allowfullscreen
+            referrerpolicy="no-referrer-when-downgrade"
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3901.000000!2d-77.0428!3d-12.0464!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2sLima!5e0!3m2!1ses-419!2spe!4v1700000000000">
+          </iframe>
+        </div>
+      </div>
+      <div class="mt-6 text-sm text-neutral-600">
+        <p><strong>Atención:</strong> Lunes a Viernes 9:00–19:00</p>
+        <p><strong>Modalidad:</strong> Presencial y online</p>
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-neutral-900 text-neutral-100">
+    <div class="max-w-6xl mx-auto px-4 py-8 text-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+      <p>© <span id="year"></span> Psicología Integral</p>
+      <a href="#contacto" class="hover:text-white">Política de privacidad</a>
+    </div>
+  </footer>
+
+  <!-- Botón flotante WhatsApp -->
+  <a id="ctaFloat" href="#"
+     class="fixed bottom-5 right-5 px-4 py-3 rounded-full bg-brand-600 text-white font-medium shadow-soft hover:bg-brand-700">
+     Agendar por WhatsApp
+     <span class="btn-gloss absolute inset-0 rounded-full animate-shine opacity-60"></span>
+  </a>
+
+  <script>
+    // ====== CONFIG: coloca tu número con código de país (sin +) ======
+    const phone = "51999999999";
+
+    // WhatsApp helper
+    function openWhatsApp(extra = {}) {
+      const nombre = extra.nombre || "";
+      const motivo = extra.motivo || "";
+      const horario = extra.horario || "";
+      const mensajeLibre = extra.mensaje || "";
+      const text =
+        `Hola, soy ${nombre || "..."}. Quisiera agendar una sesión.` +
+        (motivo ? `%0A• Motivo: ${motivo}` : "") +
+        (horario ? `%0A• Horario preferido: ${horario}` : "") +
+        (mensajeLibre ? `%0A• Mensaje: ${mensajeLibre}` : "");
+      window.open(`https://wa.me/${phone}?text=${text}`, "_blank");
+    }
+
+    // CTAs
+    ["ctaHeader","ctaMobile","ctaHero","ctaFloat"].forEach(id => {
+      const el = document.getElementById(id);
+      el && el.addEventListener("click", e => { e.preventDefault(); openWhatsApp({}); });
+    });
+
+    // Menú móvil
+    const menuBtn = document.getElementById("menuBtn");
+    const mobileMenu = document.getElementById("mobileMenu");
+    menuBtn?.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+
+    // Form -> WhatsApp
+    const form = document.getElementById("form");
+    form?.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const data = new FormData(form);
+      openWhatsApp({
+        nombre: data.get("nombre"),
+        motivo: data.get("motivo"),
+        horario: data.get("horario"),
+        mensaje: data.get("mensaje")
+      });
+    });
+
+    // Año dinámico
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Revelado on-scroll (IntersectionObserver)
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => { if (e.isIntersecting) e.target.classList.add('show'); });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+
+    // Carrusel simple (testimonios)
+    const track = document.getElementById('track');
+    let index = 0;
+    document.getElementById('prev')?.addEventListener('click', () => slide(-1));
+    document.getElementById('next')?.addEventListener('click', () => slide(1));
+    function slide(dir){
+      const cards = track.children.length;
+      const max = Math.max(0, cards - (window.innerWidth >= 1024 ? 3 : 1));
+      index = Math.min(Math.max(index + dir, 0), max);
+      const cardWidth = track.children[0].getBoundingClientRect().width + 16; // 16 gap
+      track.style.transform = `translateX(${-index * cardWidth}px)`;
+    }
+    window.addEventListener('resize', () => slide(0));
+  </script>
+</body>
+</html>
